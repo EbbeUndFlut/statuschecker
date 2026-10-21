@@ -1,0 +1,12 @@
+{
+  "name": "statuschecker",
+  "version": "1.0.0",
+  "description": "Ich möchte ein kleines Tool bauen, welches meine Kundenwebseiten aus einer json liest.\r Jede Seite prüft ob sie erreichbar ist\r Mir in der Konsole das ergebnis ausgibt\r Mir eine Logdatei erstellt mit vergangen prüfungen",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}

@@ -20,3 +20,4 @@ Mir eine Logdatei erstellt mit vergangen prüfungen
 ### Alte Dinge für uns
 1. Git 
  - mit Git init erstellen wir ein neues Git Repository
+ -> Versionsverwaltung (aktuell eher für us als Code Backup auf Github)
