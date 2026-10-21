@@ -1,18 +1,64 @@
 import {readFile} from 'node:fs/promises'
 import { lookup } from 'node:dns/promises';
 import { writeLog } from './filehandler.js';
+
 const webseiten = JSON.parse(await readFile('./webseiten.json','utf-8'))
 const STDPATH = "./log.json"
 
-console.log(process.argv)
+try{
+if (process.argv.length == 2){
+    checkStatus()
+}else{
+    const customArguments = extractArguments()
+    if(customArguments['--add']){
+        const newEntry = newUrlEntry(customArguments['--add'])
+        checkForDuplicates(newEntry)
+        webseiten.push({url:newEntry})
+        writeLog('./webseiten.json',JSON.stringify(webseiten,null,2),'w')
+    }
+}
+}catch(error){
+    console.error(error.message)
+}
 
-    
+function checkForDuplicates(newEntry){
+    const dup = webseiten.filter((ele) => ele.url === newEntry)
+    if (dup.length != 0)
+        throw new Error('URL already in List')
+}
+function newUrlEntry(url){
+    try{
+        const newUrl =  new URL(url)
+        return newUrl.origin
+    }catch(error){
+        throw error
+    }
+}
+function extractArguments(){
+    const arg = process.argv.slice(2)
+    const argumentsObject = {}
+    for (const argument of arg){
+        if(!argument.includes("="))
+            argumentsObject[argument] = true
+        else{
+            const arr = argument.split('=')
+            argumentsObject[arr[0]] = arr[1]
+        }
+    }
+    return argumentsObject
+}
+
+async function checkStatus(){
+
+
 const arr = []
 for(const element of webseiten){
-    arr.push(await getStatus(element))
+    const logData = await getStatus(element)
+    if(logData)
+        arr.push(logData)
 }
 writeLog(STDPATH,JSON.stringify(arr,null,2))
-
+}
 
 
 
@@ -23,6 +69,7 @@ async function getIpAddress(url){
 
 
 async function getStatus(element){
+    try{
         const startTime = Date.now()
         const resp = await fetch(element.url)
         const roundTrip = Date.now() - startTime
@@ -39,5 +86,8 @@ async function getStatus(element){
             "time": roundTrip
         }
         return siteData
+    }catch(error){
+        console.log(error.message)
+    }
 }
     

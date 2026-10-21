@@ -4,9 +4,9 @@ import {writeFile} from 'node:fs/promises'
 // function bekommt einen pfad und die daten
 
 
-export async function writeLog(path, data){
+export async function writeLog(path, data, flag='a'){
     try{
-        await writeFile(path, data,{flag:'a'})
+        await writeFile(path, data,{flag})
 
     }catch(error){
         console.log(error.message)
