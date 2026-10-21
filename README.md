@@ -11,6 +11,9 @@ Mir eine Logdatei erstellt mit vergangen prüfungen
 - ip addresse
 - status code
 
+### todos
+- ich möchte mit einem argument eine neue url hinzufügen (process.argv)
+- ich möchte mir eine liste ausgeben mit nicht 200 status, aus der logfile gelesen
 
 ### Neue Dinge für uns
 1. NPM Node Package Manager https://www.npmjs.com/
