@@ -1,6 +1,6 @@
 import {readFile} from 'node:fs/promises'
 import { lookup } from 'node:dns/promises';
-import { writeLog } from './filehandler.js';
+import { readLog, writeLog } from './filehandler.js';
 
 const webseiten = JSON.parse(await readFile('./webseiten.json','utf-8'))
 const STDPATH = "./log.json"
@@ -15,7 +15,12 @@ if (process.argv.length == 2){
         checkForDuplicates(newEntry)
         webseiten.push({url:newEntry})
         writeLog('./webseiten.json',JSON.stringify(webseiten,null,2),'w')
-    }else{
+    }else if(customArguments.error){
+        const data = JSON.parse(await readLog(STDPATH))
+        const badEntries = data.filter((ele) => ele.status > 299)
+        console.log(badEntries)
+    }
+    else{
         throw new Error("Argument nicht unterstützt")
     }
 }
@@ -59,7 +64,13 @@ for(const element of webseiten){
     if(logData)
         arr.push(logData)
 }
-writeLog(STDPATH,JSON.stringify(arr,null,2))
+console.log(arr)
+let oldData = await readLog(STDPATH)
+if(oldData){
+    oldData = JSON.parse(oldData)
+    oldData.push(...arr)
+}
+writeLog(STDPATH,JSON.stringify(oldData?oldData:arr,null,2),'w')
 }
 
 
