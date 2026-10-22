@@ -15,6 +15,8 @@ if (process.argv.length == 2){
         checkForDuplicates(newEntry)
         webseiten.push({url:newEntry})
         writeLog('./webseiten.json',JSON.stringify(webseiten,null,2),'w')
+    }else{
+        throw new Error("Argument nicht unterstützt")
     }
 }
 }catch(error){
