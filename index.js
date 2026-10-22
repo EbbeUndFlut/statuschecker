@@ -10,6 +10,7 @@ if (process.argv.length == 2){
     checkStatus()
 }else{
     const customArguments = extractArguments()
+
     if(customArguments['--add']){
         const newEntry = newUrlEntry(customArguments['--add'])
         checkForDuplicates(newEntry)
